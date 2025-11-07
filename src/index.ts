@@ -18,3 +18,5 @@ await logServerStart();
 
 // 设置优雅关闭
 setupGracefulShutdown(server);
+
+export default app;
