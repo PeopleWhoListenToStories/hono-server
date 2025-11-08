@@ -1,4 +1,4 @@
-import * as CryptoJS from "crypto-js";
+import CryptoJS from "crypto-js";
 
 import env from "@/env";
 
@@ -7,7 +7,8 @@ export const decryptCollabToken = (token: string) => {
     const bytes = CryptoJS.AES.decrypt(token, env.GPT_API_AUTH_KEY);
     const decryptedData = bytes.toString(CryptoJS.enc.Utf8);
     const result = JSON.parse(decryptedData);
-    if (Date.now() - result.dt > 10 * 60 * 1000)
+    const tokenExpiredInMilliseconds = 1000 * (Number(env.TOKEN_EXPIRED_IN_SECONDS || 60 * 1));
+    if (Date.now() - result.dt > tokenExpiredInMilliseconds)
       throw new Error("Token expired");
     return result;
   }

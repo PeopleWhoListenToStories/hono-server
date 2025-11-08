@@ -55,14 +55,20 @@ const EnvSchema = z.object({
   SENTRY_DSN: z.string().optional(),
 
   /** OpenAI API基础URL */
-  OPENAI_BASE_URL: z.string().url().default("https://api.openai.com/v1"),
+  OPENAI_BASE_URL: z.string().refine(
+    val => process.env.NODE_ENV !== "production" || val !== "",
+    { message: "生产环境下OPENAI_BASE_URL不能为空" },
+  ),
   /** OpenAI API密钥 */
   OPENAI_API_KEY: z.string().refine(
     val => process.env.NODE_ENV !== "production" || val !== "",
     { message: "生产环境下OpenAI API密钥不能为空" },
   ),
   /** 聊天模型名称 */
-  CHAT_MODEL: z.string().default("gpt-3.5-turbo"),
+  CHAT_MODEL: z.string().refine(
+    val => process.env.NODE_ENV !== "production" || val !== "",
+    { message: "生产环境下CHAT_MODEL密钥不能为空" },
+  ),
   /** GPT API认证密钥 */
   GPT_API_AUTH_KEY: z.string().refine(
     val => process.env.NODE_ENV !== "production" || val !== "",

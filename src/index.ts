@@ -1,17 +1,8 @@
-import { handle } from "@hono/node-server/vercel";
 import * as z from "zod";
 
 import app from "./app";
 import env from "./env";
 import { logServerStart, setupGracefulShutdown, setupJobSystem, startServerWithRetry } from "./lib/server";
-
-/**
- * ✅ Vercel 配置：必须导出 config
- * 指定运行时环境（Node.js，而不是 Edge）
- */
-export const config = {
-  runtime: "nodejs",
-};
 
 // 配置 Zod 使用中文错误消息
 z.config(z.locales.zhCN());
@@ -31,4 +22,4 @@ setupGracefulShutdown(server);
 /**
  * ✅ Vercel Serverless 入口
  */
-export default handle(app);
+export default app;

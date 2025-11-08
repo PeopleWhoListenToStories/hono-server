@@ -18,16 +18,13 @@ export const pool = new Pool({
  * ✅ 初始化 OpenAI 客户端（兼容 DashScope/DeepSeek API）
  */
 const client = new OpenAI({
-  apiKey: env.OPENAI_BASE_URL,
-  baseURL: env.OPENAI_API_KEY,
+  apiKey: env.OPENAI_API_KEY,
+  baseURL: env.OPENAI_BASE_URL,
   timeout: 1000 * 60 * 5,
 });
 
 export const getGptChat = (async (c) => {
   // 1️⃣ 校验 token 是否存在
-  console.log(`%c 👨‍👨‍👧‍👧 🚀 : getGptChat -> c.req.query("option") `, `font-size:14px;background-color:#08da13;color:black;`, c.req.query("option"));
-
-  console.log(`%c 👨‍🌾 🚀 : getGptChat -> c.req.query("x-auth-token") `, `font-size:14px;background-color:#f2c469;color:black;`, c.req.query("x-auth-token"));
   const token = c.req.query("x-auth-token");
   if (!token)
     return c.json({ error: "Missing auth token" }, 401);
